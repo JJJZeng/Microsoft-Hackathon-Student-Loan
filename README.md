@@ -51,6 +51,7 @@
 Deployed LLMs :robot:
 Deployed LLMs in Azure AI Foundry
 Example: A screenshot of the LLM deployment endpoints in Azure AI Foundry.
+
 ![Alt text](llms_deployed.png)
 
 ---
