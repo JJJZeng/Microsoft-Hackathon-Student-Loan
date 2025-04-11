@@ -22,7 +22,7 @@
 - :speech_balloon: **Multilingual Support** (English/French).  
 - :shield: **Content Safety** to filter harmful queries.  
 - :sound: **Speech-to-Text & Text-to-Speech** integration.  
-- :gear: **SQL Database Integration** (Work in Progress).  
+- :gear: **SQL Database Integration** .  
 
 ---
 
@@ -34,7 +34,7 @@
 | **Error Handling** | Filters harmful/out-of-scope queries. | `Azure_ContentSafety_jailbreak.py` |  
 | **Multilingual Support** | Handles English/French interactions. | Azure AI Translator |  
 | **Speech Integration** | Converts speech <-> text for accessibility. | Azure AI Speech Service |  
-| **SQL Chat (WIP)** | Query loan data via natural language. | `sql-server-connection` |  
+| **SQL Chat** | Query loan data via natural language. | sql database |  
 
 ---
 
@@ -45,7 +45,7 @@
 | **Azure AI Foundry** | Central hub for LLM orchestration. |  
 | **Azure AI Search** | Hybrid search (semantic + keyword). |  
 | **Azure Content Safety** | Filters harmful/inappropriate content. |  
-| **Vector Database** | Stores embeddings (DB name: `mighty-fox-jf43sc0162`). |  
+| **Vector Database** | Stores embeddings (DB name: `national-student-laon-database`). |  
 | **Model Endpoints** | Deploys LLMs/embedding models. |  
 
 Deployed LLMs :robot:
@@ -79,7 +79,7 @@ graph TD
   B -->|Text| C[Azure Content Safety]  
   B -->|Speech| D[Speech-to-Text] --> C  
   C --> E[Hybrid Search]  
-  E --> F[Vector DB: mighty-fox-jf43sc0162]  
+  E --> F[Vector DB: national-student-laon-database]  
   F --> G[LLM Orchestration]  
   G --> H[Response Generation]  
   H --> I{Output Format}  
@@ -93,7 +93,7 @@ graph TD
 
 1. **Prerequisites**:  
    - Azure AI Foundry access.  
-   - Vector DB connection string (`mighty-fox-jf43sc0162`).  
+   - Vector DB connection string (`national-student-laon-database`).  
 2. **Install Dependencies**:  
 
    ```bash  
