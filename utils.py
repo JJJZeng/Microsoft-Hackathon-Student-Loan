@@ -148,3 +148,9 @@ def remove_html_tags(content: str, abbreviate_max_length: int = None) -> str:
                                  re.sub(r'<.*?>', '\n',
                                         content).strip()))[:abbreviate_max_length] + "..."
         return content[:abbreviate_max_length] + "..."
+    
+
+def trim_string(content: str) -> str:
+    if content is None or len(content.strip()) == 0:
+        return content
+    return content.strip()

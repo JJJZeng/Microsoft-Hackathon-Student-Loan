@@ -5,6 +5,8 @@ from prompts import prompt_gpt
 from uuid import uuid4
 from utils import get_logger,clean_html_tags,trim_string,clean_answer_html_tags
 
+from Azure_ContentSafety_jailbreak import jail_break_detect
+
 # Create a logger to track events and help with debugging.
 logger = get_logger(__name__)
 
@@ -33,6 +35,7 @@ class AzureBlobDataRAG:
         self.search_endpoint=config['SEARCH_ENDPOINT']
         self.search_key=config['SEARCH_KEY']
         self.subscription_key=config['AZURE_OPENAI_API_KEY']
+        self.index_name=config["INDEX_NAME"]
         
         logger.info("Load the azure API configuration")
         logger.debug(f"model={self.deployment}")
@@ -51,6 +54,15 @@ class AzureBlobDataRAG:
             A dictionary with answer name and search results.
         """
         uuid = str(uuid4())
+        
+        #check for the jail break
+        jail_break_filter=jail_break_detect(user_query=query,document_list=[""])
+        flag_jailbreak=jail_break_filter['userPromptAnalysis']['attackDetected']
+        if flag_jailbreak:
+            ai_answer=""
+            return {"uuid": uuid,
+                    "jailbreak_violated": flag_jailbreak}
+        
         client =AzureOpenAI(
         azure_endpoint=self.endpoint,
         api_key=self.subscription_key,
@@ -86,7 +98,7 @@ class AzureBlobDataRAG:
                         "parameters":{
                             "filter":None,
                             "endpoint": f"{self.search_endpoint}",
-                            "index_name": config["INDEX_NAME"],
+                            "index_name": self.index_name,
                             "semantic_configuration":"azureml-default",
                             "authentication": {
                                 "type":"api_key",
@@ -140,10 +152,10 @@ class AzureBlobDataRAG:
                 "sources": document_sources
             }
 
-            return {
-                "uuid": uuid,
-                **response_context
-            }
+        return {
+            "uuid": uuid,
+            **response_context
+        }
         
 ###############################################################################################
 if __name__ == "__main__":
